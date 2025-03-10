@@ -1,14 +1,83 @@
 
+
+
+export class Statement {
+	constructor() {}
+}
+
+
 export class Expression {
+	constructor() {}
+}
+
+
+export class TypenameDeclaration extends Statement {
 	constructor() {
+		super();
+
+		this.name = null;
+		this.init = null;
+		this.constant = false;
+	}
+}
+
+export class ParameterDeclaration extends Statement {
+	constructor() {
+		super();
+
+		this.name = null;
+		this.type = null;
+		this.init = null;
+	}
+}
+
+export class StructureDefinition extends Expression {
+	constructor() {
+		super();
+
+		this.locals = [];
 	}
 }
 
 export class Literal extends Expression {
-	constructor(literal) {
+	static LITERAL_STRING = 0;
+	static LITERAL_INTEGER = 1;
+	static LITERAL_NUMBER = 2;
+
+	constructor(literal, type) {
+		super();
+		
+		this.type = type;
+		this.literal = literal;
+	}
+}
+
+export class ExpressionOperator extends Expression {
+	constructor(precedence) {
 		super();
 
-		this.literal = literal;
+		this.precedence = precedence;
+		this.closed = false;
+	}
+}
+
+export class BinnaryOperator extends ExpressionOperator {
+	constructor(precedence) {
+		super(precedence);
+
+		this.left_expression = null;
+		this.right_expression = null;
+		this.operator_signal = null;
+	}
+}
+
+export class UnaryTenaryOperator extends ExpressionOperator {
+	constructor(precedence) {
+		super(precedence);
+
+		this.expression = null;
+		this.tenary = false;
+		this.operator_signal = null;
 	}
 }
 
@@ -72,32 +141,6 @@ export class TypenameDef {
 	}
 }
 
-export class VariantDef {
-	constructor(name, type, init = null) {
-		this.name = name;
-		this.type = type;
-		this.init = init;
-	}
-}
 
-export class VarDecl {
-	constructor(type, name) {
-		this.type = type;
-		this.name = name;
-		this.init = null;
-		this.builtin = false;
-	}
-}
 
-export class Scope {
-	constructor() {
-		this.statements = [];
-	}
-}
 
-export class TypeDecl {
-	constructor(name) {
-		this.name = name;
-		this.scope = null;
-	}
-}
